@@ -74,7 +74,7 @@ public class MainController : MonoBehaviour
     {
         if (gemini != null)
         {
-            gemini.AskGemini(question, announceQuestion);
+            gemini.AskGemini(question, false, announceQuestion);
             // Debug.Log("Gemini Response: " + response);
         } else {
             Debug.Log("Gemini not initialized");
