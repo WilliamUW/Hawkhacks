@@ -14,6 +14,29 @@ using System.Net.Http;
 using System.Numerics;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using System.Collections;
+using UnityEngine;
+using UnityEngine.UI; // Required for UI Button interaction
+using TMPro; // Required for TextMeshPro interaction
+using System;
+using static UnityEngine.Rendering.DebugUI;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Text;
+using System.Xml;
+using System.Threading.Tasks;
+using Newtonsoft;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Collections.Specialized;
+using UnityEngine;
+using UnityEngine.Networking;
+using System.Collections;
+using System.Text;
+using Newtonsoft.Json;
+using SimpleJSON; // Make sure to include this
+using Meta.Voice.Samples.Dictation;
+using System.Reflection;
 public class MainController : MonoBehaviour
 {
     private Web3 web3;
@@ -30,7 +53,16 @@ public class MainController : MonoBehaviour
 
     private Gemini gemini;
     public UnityEngine.UI.InputField textToSpeechInputTextField;
-    public Button textToSpeechStartButton; // Reference to the UI Button
+    public UnityEngine.UI.Button textToSpeechStartButton; // Reference to the UI Button
+
+    public UnityEngine.UI.Button textToSpeechStopButton; // Reference to the UI Button
+
+
+    public DictationActivation controller; // Assign this in the Inspector
+    public UnityEngine.UI.Button clearButton;
+    public TextMeshProUGUI transcriptionText; // Reference to the TextMeshPro UI component on the button
+    MethodInfo onClickMethod = typeof(UnityEngine.UI.Button).GetMethod("Press", BindingFlags.NonPublic | BindingFlags.Instance);
+
 
     void Start()
     {
@@ -43,6 +75,24 @@ public class MainController : MonoBehaviour
     {
         gemini.AskGemini(question);
         // Debug.Log("Gemini Response: " + response);
+    }
+
+    public void palmUpEnter()
+    {
+        Debug.Log("Listen start");
+        onClickMethod?.Invoke(clearButton, null);
+        onClickMethod?.Invoke(textToSpeechStopButton, null);
+        controller.ToggleActivation();
+        Debug.Log("Listening...");
+    }
+
+    public void palmUpEnd()
+    {
+        Debug.Log("Listen end");
+        string user_input = transcriptionText.text;
+        AskQuestion(user_input);
+        Debug.Log("Asking ... " + user_input);
+        controller.ToggleActivation();
     }
 
     private IEnumerator InitializeArtworks()
@@ -166,10 +216,10 @@ public class MainController : MonoBehaviour
         artworkText.text += $"  Image URL: {artwork.ImageUrl}\n";
 
         gemini = new Gemini("You are the artwork: " + artwork.Name + " by " + artwork.ArtistName + " Additional Context: " + artworkText.text, textToSpeechInputTextField, textToSpeechStartButton);
-        
+
         // Example of asking a question
         AskQuestion("Introduce yourself.");
-        
+
 
         if (artwork.ImageTexture != null)
         {

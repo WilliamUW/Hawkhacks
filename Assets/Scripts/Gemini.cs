@@ -22,6 +22,10 @@ using SimpleJSON; // Make sure to include this
 using Meta.Voice.Samples.Dictation;
 using System.Reflection;
 using Button = UnityEngine.UI.Button;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 public class Gemini
 {
     MethodInfo onClickMethod = typeof(Button).GetMethod("Press", BindingFlags.NonPublic | BindingFlags.Instance);
