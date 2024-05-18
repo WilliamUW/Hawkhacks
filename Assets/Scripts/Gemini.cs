@@ -21,7 +21,7 @@ public class Gemini
                     { "role", "user" },
                     { "parts", new List<object>
                         {
-                            new { text = "You are: " + initialPrompt },
+                            new { text = "Answer in first person as if you are without any prefix: " + initialPrompt },
                         }
                     }
                 });
