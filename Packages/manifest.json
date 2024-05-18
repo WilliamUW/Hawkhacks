@@ -1,6 +1,9 @@
 {
   "dependencies": {
     "com.github-glitchenzo.nugetforunity": "https://github.com/GlitchEnzo/NuGetForUnity.git?path=/src/NuGetForUnity",
+    "com.meta.xr.sdk.voice": "65.0.0",
+    "com.meta.xr.sdk.voice.composer": "64.0.0",
+    "com.meta.xr.sdk.voice.dictation": "64.0.0",
     "com.unity.collab-proxy": "2.3.1",
     "com.unity.feature.development": "1.0.1",
     "com.unity.feature.vr": "1.0.0",
