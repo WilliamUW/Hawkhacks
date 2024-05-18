@@ -34,7 +34,6 @@ using UnityEngine.Networking;
 using System.Collections;
 using System.Text;
 using Newtonsoft.Json;
-using SimpleJSON; // Make sure to include this
 using Meta.Voice.Samples.Dictation;
 using System.Reflection;
 public class MainController : MonoBehaviour
