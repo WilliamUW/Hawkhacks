@@ -21,7 +21,7 @@ public class Gemini
                     { "role", "user" },
                     { "parts", new List<object>
                         {
-                            new { text = "Hi" },
+                            new { text = "You are: " + initialPrompt },
                         }
                     }
                 });
@@ -30,7 +30,7 @@ public class Gemini
                     { "role", "model" },
                     { "parts", new List<object>
                         {
-                            new { text = initialPrompt },
+                            new { text = "Ok." },
                         }
                     }
                 });

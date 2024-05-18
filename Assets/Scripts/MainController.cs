@@ -32,14 +32,9 @@ public class MainController : MonoBehaviour
 
     void Start()
     {
-        gemini = new Gemini("You are a teddy bear");
-        
-        // Example of asking a question
-        AskQuestion("Hi");
-
-        // artworkRegistryService = new ArtworkRegistryService(rpcUrl, contractAddress);
-        // artworks = new List<ArtworkRegistryService.ArtworkDTO>();
-        // StartCoroutine(InitializeArtworks());
+        artworkRegistryService = new ArtworkRegistryService(rpcUrl, contractAddress);
+        artworks = new List<ArtworkRegistryService.ArtworkDTO>();
+        StartCoroutine(InitializeArtworks());
     }
 
     public async void AskQuestion(string question)
@@ -167,6 +162,12 @@ public class MainController : MonoBehaviour
         artworkText.text += $"  Location: {artwork.Location}\n";
         artworkText.text += $"  Description: {artwork.Description}\n";
         artworkText.text += $"  Image URL: {artwork.ImageUrl}\n";
+
+        gemini = new Gemini("You are the artwork: " + artwork.Name + " by " + artwork.ArtistName + " Additional Context: " + artworkText.text);
+        
+        // Example of asking a question
+        AskQuestion("Introduce yourself.");
+        
 
         if (artwork.ImageTexture != null)
         {
