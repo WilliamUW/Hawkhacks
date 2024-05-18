@@ -70,11 +70,11 @@ public class MainController : MonoBehaviour
         StartCoroutine(InitializeArtworks());
     }
 
-    public async void AskQuestion(string question)
+    public async void AskQuestion(string question, bool announceQuestion = true)
     {
         if (gemini != null)
         {
-            gemini.AskGemini(question);
+            gemini.AskGemini(question, announceQuestion);
             // Debug.Log("Gemini Response: " + response);
         } else {
             Debug.Log("Gemini not initialized");
@@ -226,7 +226,7 @@ public class MainController : MonoBehaviour
         gemini = new Gemini("You are the artwork: " + artwork.Name + " by " + artwork.ArtistName + " Additional Context: " + artworkText.text, textToSpeechInputTextField, textToSpeechStartButton);
 
         // Example of asking a question
-        AskQuestion("Introduce yourself.");
+        AskQuestion("Introduce yourself.", false);
 
 
         if (artwork.ImageTexture != null)
