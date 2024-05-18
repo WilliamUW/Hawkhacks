@@ -38,6 +38,9 @@ public class Gemini
     {
         this.textToSpeechInputTextField = textToSpeechInputTextField;
         this.textToSpeechStartButton = textToSpeechStartButton;
+
+        speak("Hi there! Let me introduce myself.");
+
         conversation = new List<Dictionary<string, object>>();
         conversation.Add(new Dictionary<string, object>
                 {
@@ -57,6 +60,7 @@ public class Gemini
                         }
                     }
                 });
+
     }
 
     public void speak(string text)
