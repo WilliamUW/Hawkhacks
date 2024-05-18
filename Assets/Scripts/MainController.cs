@@ -28,11 +28,24 @@ public class MainController : MonoBehaviour
     private List<ArtworkRegistryService.ArtworkDTO> artworks;
     public Image artworkImage;
 
+    private Gemini gemini;
+
     void Start()
     {
-        artworkRegistryService = new ArtworkRegistryService(rpcUrl, contractAddress);
-        artworks = new List<ArtworkRegistryService.ArtworkDTO>();
-        StartCoroutine(InitializeArtworks());
+        gemini = new Gemini("You are a teddy bear");
+        
+        // Example of asking a question
+        AskQuestion("Hi");
+
+        // artworkRegistryService = new ArtworkRegistryService(rpcUrl, contractAddress);
+        // artworks = new List<ArtworkRegistryService.ArtworkDTO>();
+        // StartCoroutine(InitializeArtworks());
+    }
+
+    public async void AskQuestion(string question)
+    {
+        gemini.AskGemini(question);
+        // Debug.Log("Gemini Response: " + response);
     }
 
     private IEnumerator InitializeArtworks()
