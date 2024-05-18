@@ -86,7 +86,7 @@ public class Gemini
         }
         if (announceQuestion)
         {
-            // speak("I heard: " + userQuery);
+            speak("I heard: " + userQuery);
             // updateCaptureButtonText("I heard: " + userQuery);
         }
         var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent";

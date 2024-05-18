@@ -63,7 +63,7 @@ public class MainController : MonoBehaviour
     public TextMeshProUGUI transcriptionText; // Reference to the TextMeshPro UI component on the button
     MethodInfo onClickMethod = typeof(UnityEngine.UI.Button).GetMethod("Press", BindingFlags.NonPublic | BindingFlags.Instance);
 
-
+    private bool isListening = false;
     void Start()
     {
         artworkRegistryService = new ArtworkRegistryService(rpcUrl, contractAddress);
@@ -73,12 +73,19 @@ public class MainController : MonoBehaviour
 
     public async void AskQuestion(string question)
     {
-        gemini.AskGemini(question);
-        // Debug.Log("Gemini Response: " + response);
+        if (gemini != null)
+        {
+            gemini.AskGemini(question);
+            // Debug.Log("Gemini Response: " + response);
+        } else {
+            Debug.Log("Gemini not initialized");
+        }
     }
 
     public void palmUpEnter()
     {
+        if (isListening) return;
+        isListening = true;
         Debug.Log("Listen start");
         onClickMethod?.Invoke(clearButton, null);
         onClickMethod?.Invoke(textToSpeechStopButton, null);
@@ -88,6 +95,8 @@ public class MainController : MonoBehaviour
 
     public void palmUpEnd()
     {
+        if (!isListening) return;
+        isListening = false;
         Debug.Log("Listen end");
         string user_input = transcriptionText.text;
         AskQuestion(user_input);
