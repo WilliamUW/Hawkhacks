@@ -10,7 +10,10 @@ using Nethereum.Contracts;
 using Nethereum.ABI.FunctionEncoding.Attributes;
 using TMPro;
 using UnityEngine.Networking;
-
+using System.Net.Http;
+using System.Numerics;
+using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 public class MainController : MonoBehaviour
 {
     private Web3 web3;
@@ -29,8 +32,39 @@ public class MainController : MonoBehaviour
     {
         artworkRegistryService = new ArtworkRegistryService(rpcUrl, contractAddress);
         artworks = new List<ArtworkRegistryService.ArtworkDTO>();
+        StartCoroutine(InitializeArtworks());
+    }
+
+    private IEnumerator InitializeArtworks()
+    {
+        // Run the async method to fetch artworks
+        var getArtworksTask = GetArtworksAsync();
+        yield return new WaitUntil(() => getArtworksTask.IsCompleted);
+
+        if (getArtworksTask.Exception != null)
+        {
+            Debug.LogError("Failed to fetch artworks: " + getArtworksTask.Exception);
+            yield break;
+        }
+
+        // Start the coroutine to process artworks
         StartCoroutine(FetchArtworksCoroutine());
     }
+
+    private async Task GetArtworksAsync()
+    {
+        try
+        {
+            await artworkRegistryService.GetArtworksAsync();
+            artworks = artworkRegistryService.Artworks;
+            Debug.Log("Artworks fetched successfully");
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError("Failed to fetch artworks: " + ex);
+        }
+    }
+
 
     IEnumerator FetchArtworksCoroutine()
     {
@@ -81,7 +115,7 @@ public class MainController : MonoBehaviour
             }));
         }
 
-         for (int i = 0; i < artworkCount; i++)
+        for (int i = 0; i < artworkCount; i++)
         {
             var artwork = artworks[i];
             artworkDropdown.options.Add(new TMP_Dropdown.OptionData(artwork.Name));
@@ -128,64 +162,73 @@ public class MainController : MonoBehaviour
     }
 }
 
+
 public class ArtworkRegistryService
 {
-    private Web3 web3;
-    private Contract contract;
+    private static readonly HttpClient httpClient = new HttpClient();
+    private List<ArtworkDTO> artworks = new List<ArtworkDTO>();
 
     public ArtworkRegistryService(string rpcUrl, string contractAddress)
     {
-        web3 = new Web3(rpcUrl);
-        string abi = @"[{
-            ""constant"": true,
-            ""inputs"": [],
-            ""name"": ""getArtworkCount"",
-            ""outputs"": [{""name"": """", ""type"": ""uint256""}],
-            ""payable"": false,
-            ""stateMutability"": ""view"",
-            ""type"": ""function""
-        },{
-            ""constant"": true,
-            ""inputs"": [{""name"": ""_index"", ""type"": ""uint256""}],
-            ""name"": ""getArtwork"",
-            ""outputs"": [
-                {""name"": """", ""type"": ""string""},
-                {""name"": """", ""type"": ""string""},
-                {""name"": """", ""type"": ""string""},
-                {""name"": """", ""type"": ""uint256""},
-                {""name"": """", ""type"": ""string""},
-                {""name"": """", ""type"": ""string""},
-                {""name"": """", ""type"": ""string""}
-            ],
-            ""payable"": false,
-            ""stateMutability"": ""view"",
-            ""type"": ""function""
-        }]";
-        contract = web3.Eth.GetContract(abi, contractAddress);
+        // Initialization logic if needed
+        // GetArtworksAsync();
+        // Debug.Log("Artworks fetched");
+        // Debug.Log(artworks.Count);
+        // Debug.Log(artworks);
+    }
+
+    public async Task GetArtworksAsync()
+    {
+        string url = "https://hello-near-examples.onrender.com/artworks";
+        HttpResponseMessage response = await httpClient.GetAsync(url);
+
+        if (response.IsSuccessStatusCode)
+        {
+            string jsonResponse = await response.Content.ReadAsStringAsync();
+            JArray artworksArray = JArray.Parse(jsonResponse);
+            artworks = new List<ArtworkDTO>();
+
+            foreach (JArray artwork in artworksArray)
+            {
+                artworks.Add(new ArtworkDTO
+                {
+                    Name = artwork[0].ToString(),
+                    ArtistName = artwork[1].ToString(),
+                    ArtistDescription = artwork[2].ToString(),
+                    DateCreated = BigInteger.Parse(artwork[3].ToString()),
+                    Location = artwork[4].ToString(),
+                    Description = artwork[5].ToString(),
+                    ImageUrl = artwork[6].ToString()
+                });
+            }
+        }
+        else
+        {
+            throw new Exception("Failed to fetch artworks");
+        }
     }
 
     public Task<BigInteger> GetArtworkCountAsync()
     {
-        var getArtworkCountFunction = contract.GetFunction("getArtworkCount");
-        return getArtworkCountFunction.CallAsync<BigInteger>();
+        return Task.FromResult((BigInteger)artworks.Count);
     }
 
     public Task<ArtworkDTO> GetArtworkAsync(BigInteger index)
     {
-        var getArtworkFunction = contract.GetFunction("getArtwork");
-        return getArtworkFunction.CallDeserializingToObjectAsync<ArtworkDTO>(index);
+        return Task.FromResult(artworks[(int)index]);
     }
 
-    [FunctionOutput]
-    public class ArtworkDTO : IFunctionOutputDTO
+    public List<ArtworkDTO> Artworks => artworks;
+
+    public class ArtworkDTO
     {
-        [Parameter("string", "name", 1)] public string Name { get; set; }
-        [Parameter("string", "artistName", 2)] public string ArtistName { get; set; }
-        [Parameter("string", "artistDescription", 3)] public string ArtistDescription { get; set; }
-        [Parameter("uint256", "dateCreated", 4)] public BigInteger DateCreated { get; set; }
-        [Parameter("string", "location", 5)] public string Location { get; set; }
-        [Parameter("string", "description", 6)] public string Description { get; set; }
-        [Parameter("string", "imageUrl", 7)] public string ImageUrl { get; set; }
-        public Texture2D ImageTexture { get; set; } // Add this property
+        public string Name { get; set; }
+        public string ArtistName { get; set; }
+        public string ArtistDescription { get; set; }
+        public BigInteger DateCreated { get; set; }
+        public string Location { get; set; }
+        public string Description { get; set; }
+        public string ImageUrl { get; set; }
+        public Texture2D ImageTexture { get; set; }
     }
 }
