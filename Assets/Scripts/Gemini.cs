@@ -15,26 +15,34 @@ public class Gemini
 
     public Gemini(string initialPrompt)
     {
-        // conversation = new List<Dictionary<string, object>>
-        // {
-        //     new Dictionary<string, object>
-        //     {
-        //         { "role", "user" },
-        //         { "content", "hello" }
-        //     },
-        //     new Dictionary<string, object>
-        //     {
-        //         { "role", "model" },
-        //         { "content", initialPrompt }
-        //     }
-        // };
+        conversation = new List<Dictionary<string, object>>();
+        conversation.Add(new Dictionary<string, object>
+                {
+                    { "role", "user" },
+                    { "parts", new List<object>
+                        {
+                            new { text = "Hi" },
+                        }
+                    }
+                });
+        conversation.Add(new Dictionary<string, object>
+                {
+                    { "role", "model" },
+                    { "parts", new List<object>
+                        {
+                            new { text = initialPrompt },
+                        }
+                    }
+                });
     }
 
-    public void speak(string s) {
-        Debug.Log(s);
+    public void speak(string s)
+    {
+        Debug.Log("To speech: " + s);
     }
 
-    public void updateCaptureButtonText(string s) {
+    public void updateCaptureButtonText(string s)
+    {
         Debug.Log(s);
     }
     public async void AskGemini(string userQuery, bool resetConversation = false, bool announceQuestion = true)
