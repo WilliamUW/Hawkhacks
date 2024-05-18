@@ -29,6 +29,8 @@ public class MainController : MonoBehaviour
     public Image artworkImage;
 
     private Gemini gemini;
+    public UnityEngine.UI.InputField textToSpeechInputTextField;
+    public Button textToSpeechStartButton; // Reference to the UI Button
 
     void Start()
     {
@@ -163,7 +165,7 @@ public class MainController : MonoBehaviour
         artworkText.text += $"  Description: {artwork.Description}\n";
         artworkText.text += $"  Image URL: {artwork.ImageUrl}\n";
 
-        gemini = new Gemini("You are the artwork: " + artwork.Name + " by " + artwork.ArtistName + " Additional Context: " + artworkText.text);
+        gemini = new Gemini("You are the artwork: " + artwork.Name + " by " + artwork.ArtistName + " Additional Context: " + artworkText.text, textToSpeechInputTextField, textToSpeechStartButton);
         
         // Example of asking a question
         AskQuestion("Introduce yourself.");

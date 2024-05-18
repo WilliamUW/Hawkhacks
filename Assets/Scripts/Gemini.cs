@@ -1,20 +1,43 @@
+using System.Collections;
+using UnityEngine;
+using UnityEngine.UI; // Required for UI Button interaction
+using TMPro; // Required for TextMeshPro interaction
 using System;
+using static UnityEngine.Rendering.DebugUI;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Xml;
 using System.Threading.Tasks;
+using Newtonsoft;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections.Specialized;
 using UnityEngine;
-
+using UnityEngine.Networking;
+using System.Collections;
+using System.Text;
+using Newtonsoft.Json;
+using SimpleJSON; // Make sure to include this
+using Meta.Voice.Samples.Dictation;
+using System.Reflection;
+using Button = UnityEngine.UI.Button;
 public class Gemini
 {
+    MethodInfo onClickMethod = typeof(Button).GetMethod("Press", BindingFlags.NonPublic | BindingFlags.Instance);
+
+    public UnityEngine.UI.InputField textToSpeechInputTextField;
+    public Button textToSpeechStartButton; // Reference to the UI Button
+    public Button textToSpeechStopButton; // Reference to the UI Button
+
     private List<Dictionary<string, object>> conversation = new List<Dictionary<string, object>>();
     private string geminiApiKey = "AIzaSyBxjY0ZtQ3Rw4xedwZIrCscne2PZxagCmc";
     private string url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent";
 
-    public Gemini(string initialPrompt)
+    public Gemini(string initialPrompt, UnityEngine.UI.InputField textToSpeechInputTextField, Button textToSpeechStartButton)
     {
+        this.textToSpeechInputTextField = textToSpeechInputTextField;
+        this.textToSpeechStartButton = textToSpeechStartButton;
         conversation = new List<Dictionary<string, object>>();
         conversation.Add(new Dictionary<string, object>
                 {
@@ -36,9 +59,11 @@ public class Gemini
                 });
     }
 
-    public void speak(string s)
+    public void speak(string text)
     {
-        Debug.Log("To speech: " + s);
+        Debug.Log("Speak: " + text);
+        textToSpeechInputTextField.text = text;
+        onClickMethod?.Invoke(textToSpeechStartButton, null);
     }
 
     public void updateCaptureButtonText(string s)
