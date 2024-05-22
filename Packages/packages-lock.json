@@ -32,6 +32,68 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.monaverse.brainssdk": {
+      "version": "0.11.0",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.ai.navigation": "1.1.4",
+        "com.unity.cinemachine": "2.9.7",
+        "com.unity.visualscripting": "1.8.0",
+        "com.unity.modules.physics": "1.0.0",
+        "com.unity.modules.physics2d": "1.0.0",
+        "com.unity.modules.audio": "1.0.0",
+        "com.unity.modules.ui": "1.0.0",
+        "com.unity.modules.uielements": "1.0.0",
+        "com.unity.textmeshpro": "3.0.6",
+        "com.unity.inputsystem": "1.6.3",
+        "com.monaverse.coresdk": "0.8.0",
+        "com.vrmc.gltf": "0.114.0",
+        "com.vrmc.univrm": "0.114.0",
+        "com.vrmc.vrm": "0.114.0",
+        "com.vrmc.vrmshaders": "0.114.0",
+        "com.monaverse.unitygltf": "0.3.0"
+      },
+      "url": "https://package.openupm.com"
+    },
+    "com.monaverse.coresdk": {
+      "version": "0.8.0",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.visualscripting": "1.8.0",
+        "com.unity.modules.physics": "1.0.0",
+        "com.unity.modules.physics2d": "1.0.0",
+        "com.unity.modules.audio": "1.0.0",
+        "com.unity.modules.ui": "1.0.0",
+        "com.unity.modules.uielements": "1.0.0",
+        "com.unity.textmeshpro": "3.0.8"
+      },
+      "url": "https://package.openupm.com"
+    },
+    "com.monaverse.unitygltf": {
+      "version": "0.3.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "2.0.0",
+        "com.unity.modules.imageconversion": "1.0.0",
+        "com.unity.shadergraph": "10.0.0",
+        "com.unity.mathematics": "1.0.0",
+        "com.monaverse.brainssdk": "0.11.0",
+        "com.monaverse.coresdk": "0.8.0"
+      },
+      "url": "https://package.openupm.com"
+    },
+    "com.unity.ai.navigation": {
+      "version": "1.1.5",
+      "depth": 2,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.ai": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.burst": {
       "version": "1.8.13",
       "depth": 1,
@@ -39,6 +101,15 @@
       "dependencies": {
         "com.unity.mathematics": "1.2.1",
         "com.unity.modules.jsonserialize": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.cinemachine": {
+      "version": "2.10.0",
+      "depth": 2,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.test-framework": "1.1.31"
       },
       "url": "https://packages.unity.com"
     },
@@ -137,6 +208,13 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.unity.nuget.newtonsoft-json": {
+      "version": "3.2.1",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "com.unity.performance.profile-analyzer": {
       "version": "1.2.2",
       "depth": 1,
@@ -220,8 +298,8 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.textmeshpro": {
-      "version": "3.0.6",
-      "depth": 0,
+      "version": "3.0.8",
+      "depth": 2,
       "source": "registry",
       "dependencies": {
         "com.unity.ugui": "1.0.0"
@@ -326,6 +404,46 @@
         "com.unity.xr.core-utils": "2.1.1"
       },
       "url": "https://packages.unity.com"
+    },
+    "com.vrmc.gltf": {
+      "version": "0.114.0",
+      "depth": 2,
+      "source": "registry",
+      "dependencies": {
+        "com.vrmc.vrmshaders": "0.114.0",
+        "com.unity.modules.animation": "1.0.0"
+      },
+      "url": "https://package.openupm.com"
+    },
+    "com.vrmc.univrm": {
+      "version": "0.114.0",
+      "depth": 2,
+      "source": "registry",
+      "dependencies": {
+        "com.vrmc.vrmshaders": "0.114.0",
+        "com.vrmc.gltf": "0.114.0",
+        "com.unity.ugui": "1.0.0"
+      },
+      "url": "https://package.openupm.com"
+    },
+    "com.vrmc.vrm": {
+      "version": "0.114.0",
+      "depth": 2,
+      "source": "registry",
+      "dependencies": {
+        "com.vrmc.vrmshaders": "0.114.0",
+        "com.vrmc.gltf": "0.114.0"
+      },
+      "url": "https://package.openupm.com"
+    },
+    "com.vrmc.vrmshaders": {
+      "version": "0.114.0",
+      "depth": 2,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.imageconversion": "1.0.0"
+      },
+      "url": "https://package.openupm.com"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",
