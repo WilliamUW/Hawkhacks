@@ -75,3 +75,4 @@ crashlytics-build.properties
 *.mp4
 server/capture.png
 server/.env
+/NeARchive_BurstDebugInformation_DoNotShip

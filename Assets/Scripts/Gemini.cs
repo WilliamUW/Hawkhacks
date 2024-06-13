@@ -34,8 +34,8 @@ public class Gemini
     public Button textToSpeechStopButton; // Reference to the UI Button
 
     private List<Dictionary<string, object>> conversation = new List<Dictionary<string, object>>();
-    private string geminiApiKey = "AIzaSyBxjY0ZtQ3Rw4xedwZIrCscne2PZxagCmc";
-    private string url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent";
+    private string geminiApiKey = "AIzaSyBY87LlScf_GUVyzZBc2lF-Rn_Tqw7sajc";
+    private string url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
 
     public Gemini(string initialPrompt, UnityEngine.UI.InputField textToSpeechInputTextField, Button textToSpeechStartButton)
     {
